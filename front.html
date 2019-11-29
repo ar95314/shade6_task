@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <input type="text" id="name" name="name" value="krishna" />
+      <button type="submit" value="submit" onclick="postData();return false">
+        submit
+      </button>
+    </form>
+
+    <input type="text" id="num" name="ID" value="5d8468944bd3713e3850882a" />
+    Enter the new name:<br />
+    <input type="text" name="name" id="uName" value="shankar" />
+    <button type="button" onclick="update();return false;">
+      Update
+    </button>
+
+    <button type="button" onclick="remove();return false">Remove</button>
+  </body>
+  <script>
+    let postData = function() {
+      var data = {
+        name: document.getElementById("name").value
+      };
+      var xHttp = new XMLHttpRequest();
+
+      xHttp.onreadystatechange = function() {
+        console.log(this.readyState, this.status);
+        if ((this.readyState == 4) & (this.status == 200)) {
+          console.log(this.response);
+          alert("success");
+        } else {
+          console.log(this.readyState, this.status);
+        }
+      };
+
+      xHttp.open("POST", "http://localhost:3011/postData", true);
+      xHttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      xHttp.send(JSON.stringify(data));
+    };
+
+    let update = function() {
+      var data = {
+        id: document.getElementById("num").value,
+        name: document.getElementById("uName").value
+      };
+
+      let xHttp = new XMLHttpRequest();
+
+      xHttp.onreadystatechange = function() {
+        if ((this.readyState == 4) & (this.status == 200)) {
+          alert("success");
+        } else {
+          console.log(this.readyState, this.status);
+        }
+      };
+
+      xHttp.open("PUT", "http://localhost:3011/putData");
+      xHttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      xHttp.send(JSON.stringify(data));
+    };
+
+    let remove = function() {
+      let id = {
+        id: "5d8468944bd3713e3850882a"
+      };
+
+      let xHttp = new XMLHttpRequest();
+
+      xHttp.onreadystatechange = function() {
+        if ((this.readyState == 4) & (this.status == 200)) {
+          alert("success");
+        } else {
+          console.log(this.readyState, this.status);
+        }
+      };
+
+      xHttp.open("DELETE", "http://localhost:3011/removeData");
+      xHttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      xHttp.send(JSON.stringify(id));
+    };
+  </script>
+</html>
